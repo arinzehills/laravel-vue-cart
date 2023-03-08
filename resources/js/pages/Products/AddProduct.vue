@@ -5,8 +5,14 @@
                 id="product_name"
                 label="Product Name"
                 v-model="product_name"
+                value="product_name"
             />
-            <InputField id="price" label="Price" v-model="price" />
+            <InputField
+                id="price"
+                label="Price"
+                v-model="price"
+                :value="price"
+            />
             <div class="input-group-append">
                 <input
                     type="file"
@@ -28,6 +34,7 @@
 <script>
 import InputField from "../../components/InputField.vue";
 import Button from "../../components/Button.vue";
+import axios from "axios";
 
 export default {
     components: {
@@ -45,10 +52,11 @@ export default {
     methods: {
         onFileChange(e) {
             //console.log(e.target.files[0]);
+            console.log(this.product_name);
             this.imagename = "Selected File: " + e.target.files[0].name;
             this.file = e.target.files[0];
         },
-        submitForm(e) {
+        async submitForm(e) {
             e.preventDefault();
             let currentObj = this;
             const config = {
@@ -67,8 +75,8 @@ export default {
             // send upload request
             console.log(Object.fromEntries(formData));
 
-            axios
-                .post("/addProduct", formData, config)
+            await axios
+                .post("/api/addProduct", formData, config)
                 .then(function (response) {
                     currentObj.success = response.data.success;
                     currentObj.filename = "";

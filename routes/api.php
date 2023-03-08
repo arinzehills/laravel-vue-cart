@@ -19,6 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get("/products",function(){
-// })
+Route::post("/addProducts",function(){
+    return response()->json(['success' => 'we have successfully uploaded ']);
+
+});
 Route::get("/products", [ProductController::class, "index"]);
+Route::post("/addProduct", [ProductController::class, "addProduct"]);

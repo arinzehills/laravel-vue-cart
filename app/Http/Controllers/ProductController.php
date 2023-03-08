@@ -12,13 +12,12 @@ class ProductController extends Controller
         //
         $upload_path = public_path('upload');
         if($request->has('image')){
-            $file_name = $request->file->getClientOriginalName();
-            $generated_new_name = time() . '.' . $request->file->getClientOriginalExtension();
-            $request->file->move($upload_path, $generated_new_name);
-            
+            $file=$request->file('image');
+            $file_name = $file->getClientOriginalName();
+            $generated_new_name = time() . '.' . $file->getClientOriginalExtension();
+            $file->move($upload_path, $generated_new_name);
             $create_request= Product::create([
-    
-                'image'=>$filename
+                'image'=>$file_name
                 ]+$request->all());//normal request table
                 return response()->json(['success' => 'we have successfully uploaded "' . $file_name . '"']);
             }
