@@ -11,17 +11,17 @@ class ProductController extends Controller
     {
         //
         $upload_path = public_path('upload');
-        $file_name = $request->file->getClientOriginalName();
-        $generated_new_name = time() . '.' . $request->file->getClientOriginalExtension();
-        $request->file->move($upload_path, $generated_new_name);
-
-        $insert['image'] = $file_name;
-        $check = Product::insertGetId($insert);
-        $create_request= Product::create([
-
-
-            ]+$request->all());//normal request table
-        return response()->json(['success' => 'we have successfully uploaded "' . $file_name . '"']);
+        if($request->has('image')){
+            $file_name = $request->file->getClientOriginalName();
+            $generated_new_name = time() . '.' . $request->file->getClientOriginalExtension();
+            $request->file->move($upload_path, $generated_new_name);
+            
+            $create_request= Product::create([
+    
+                'image'=>$filename
+                ]+$request->all());//normal request table
+                return response()->json(['success' => 'we have successfully uploaded "' . $file_name . '"']);
+            }
     }
 
 
